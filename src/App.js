@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import 'antd/dist/antd.css';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
 
-function App() {
+import LayoutPage from './hocs/LayoutPage/LayoutPage';
+import Home from './containers/Home/Home';
+import Auth from './containers/Auth/Auth';
+import YourOrder from './containers/YourOrder/YourOrder';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <LayoutPage>
+        <Switch>
+          <Route path="/your-orders" component={YourOrder} />
+          <Route path="/auth" component={Auth} />
+          <Route path="/" exact={true} component={Home} />
+        </Switch>
+      </LayoutPage>
+    </React.Fragment>
   );
-}
+};
 
 export default App;

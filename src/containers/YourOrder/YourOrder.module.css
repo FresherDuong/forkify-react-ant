@@ -1,0 +1,22 @@
+.YourOrder {
+  margin: 50px 10%;
+  min-height: 60vh;
+}
+
+.OrderForm {
+  margin: 40px 20%;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 480px) {
+  .OrderForm {
+    margin: 20px 20px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .YourOrder {
+    margin: 20px 0px;
+    min-height: 400px;
+  }
+}

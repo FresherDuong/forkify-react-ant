@@ -1,0 +1,10 @@
+.OrderForm {
+  margin: 10px 20%;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 480px) {
+  .OrderForm {
+    margin: 0px 20px;
+  }
+}

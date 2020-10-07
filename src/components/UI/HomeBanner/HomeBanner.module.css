@@ -2,9 +2,9 @@
   transform: translate(-50%, 20%) skewY(-6deg);
   color: #fff;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 20px;
   text-transform: uppercase;
-  width: 40%;
+  width: 30%;
   line-height: 1.95;
   text-align: center;
   margin-left: 49%;
@@ -14,7 +14,7 @@
 .recipe__title span {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  padding: 1.3rem 2rem;
+  padding: 1.1rem 1.7rem;
   background-image: linear-gradient(to right bottom, #fbdb89, #f48982);
 }
 
@@ -39,7 +39,7 @@
 @media only screen and (max-width: 400px) {
   .recipe__title {
     width: 80%;
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .recipe__title span {

@@ -47,7 +47,7 @@ const Auth = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: 'Please input your username',
             },
           ]}
         >
@@ -60,7 +60,7 @@ const Auth = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: 'Please input your password',
             },
           ]}
         >

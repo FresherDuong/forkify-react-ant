@@ -3,12 +3,38 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import * as serviceWorker from './serviceWorker';
+import homeReducer from './store/reducers/home';
+import favoritesReducer from './store/reducers/favorites';
+import ingredientsReducer from './store/reducers/ingredients';
+
+// Combine all reducers into one, then remember to change 'mapStateToProps'
+const rootReducer = combineReducers({
+  home: homeReducer,
+  favorites: favoritesReducer,
+  ingredients: ingredientsReducer,
+});
+
+// Set up using redux chrome dev tool
+const composeEnhancers =
+  process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : null || compose;
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

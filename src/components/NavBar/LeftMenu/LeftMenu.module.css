@@ -1,6 +1,12 @@
 .OrderAll {
   width: 100%;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.Favorites {
+  max-height: 350px;
+  overflow-y: scroll;
 }

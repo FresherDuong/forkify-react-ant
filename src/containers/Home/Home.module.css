@@ -1,9 +1,15 @@
 .Home {
+  width: 100%;
   margin: 0px 2% 50px 2%;
 }
 
 .HomeBanner {
   margin: 40px 4% 50px 4%;
+}
+
+.Pagination {
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 480px) {

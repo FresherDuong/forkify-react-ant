@@ -3,38 +3,36 @@ import { Table, InputNumber } from 'antd';
 import YourFavorite from './../../components/YourFavorite/YourFavorite';
 
 const { Column } = Table;
-const data = [
-  {
-    key: '1',
-  },
-  {
-    key: '2',
-  },
-  {
-    key: '3',
-  },
-];
 
 const OrderTable = (props) => {
   return (
     <div>
-      <Table dataSource={data} pagination={false} scroll={{ x: 300 }}>
+      <Table dataSource={props.tableData} pagination={true} scroll={{ x: 300 }}>
         <Column
           title="Your favorites"
-          render={() => <YourFavorite />}
+          render={(fav) => (
+            <YourFavorite
+              favImg={fav.mealImage}
+              favTitle={fav.mealTitle}
+              favPrice={fav.mealPrice}
+              favPublisher={fav.mealPublisher}
+              onDeleteFav={() => props.onDeleteFav(fav.favId)}
+              onShowIng={() => props.onOpenModal(fav.favId)}
+            />
+          )}
           key="yourFavorites"
         />
         <Column
           title="Quantity"
-          key="quantity"
-          render={() => (
+          render={(fav) => (
             <InputNumber
               min={1}
               max={10}
-              defaultValue={1}
-              onChange={() => {}}
+              defaultValue={fav.quantity}
+              onChange={(value) => props.onIncMealQuantity(fav.favId, value)}
             />
           )}
+          key="quantity"
         />
       </Table>
     </div>

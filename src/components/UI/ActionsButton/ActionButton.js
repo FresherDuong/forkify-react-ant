@@ -9,6 +9,7 @@ const ActionButton = (props) => {
       <div>
         <Tooltip title="Delete this meal">
           <Button
+            onClick={props.onDeleteFav}
             type="link"
             icon={<CloseCircleTwoTone twoToneColor="#eb2f96" />}
           />
@@ -16,7 +17,11 @@ const ActionButton = (props) => {
       </div>
       <div>
         <Tooltip title="Show all ingredients">
-          <Button type="link" icon={<ProfileTwoTone />} />
+          <Button
+            onClick={props.onShowIng}
+            type="link"
+            icon={<ProfileTwoTone />}
+          />
         </Tooltip>
       </div>
     </div>

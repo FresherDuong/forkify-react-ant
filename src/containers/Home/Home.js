@@ -1,16 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardCustomize from './../../components/UI/CardCustomize/CardCustomize';
-import { Row, Pagination, Layout, Menu, Affix } from 'antd';
+import { Row, Pagination, Layout, Spin, message } from 'antd';
 import styles from './Home.module.css';
 import OrderDrawer from './../../components/OrderDrawer/OrderDrawer';
 import HomeBanner from './../../components/UI/HomeBanner/HomeBanner';
-import { FireTwoTone, StarTwoTone } from '@ant-design/icons';
+import CardSkeleton from './../../components/UI/CardSkeleton/CardSkeleton';
+import AppSider from './../../components/AppSider/AppSider';
+import { useSelector, useDispatch } from 'react-redux';
+import IngredientModal from './../../components/IngredientModal/IngredientModal';
+import * as actionCreator from './../../store/actions/index';
 
-const { Sider } = Layout;
-const { SubMenu } = Menu;
+message.config({
+  duration: 1,
+});
 
-const Home = (props) => {
+const Home = () => {
+  console.log('[Home.js] rendered');
   const [visibleDrawer, setVisibleDrawer] = useState(false);
+
+  const {
+    meals,
+    loading,
+    totalResult,
+    currentPage,
+    myFavorites,
+    modalEnable,
+    searchKeyWord,
+  } = useSelector((state) => {
+    return {
+      meals: state.home.meals,
+      loading: state.home.loading,
+      totalResult: state.home.totalResult,
+      currentPage: state.home.currentPage,
+      myFavorites: state.favorites.myFavorites,
+      modalEnable: state.ingredients.modalEnable,
+      searchKeyWord: state.home.searchKeyWord,
+    };
+  });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actionCreator.fetchMeals('beef'));
+  }, [dispatch]);
+
+  const openModal = (recipeId) => {
+    dispatch(actionCreator.openIngredientModal(recipeId));
+  };
+
+  const closeModal = () => {
+    dispatch(actionCreator.closeIngredientModal());
+  };
 
   const showDrawer = () => {
     setVisibleDrawer(true);
@@ -20,75 +59,96 @@ const Home = (props) => {
     setVisibleDrawer(false);
   };
 
+  const changePage = (page, pageSize) => {
+    dispatch(actionCreator.setHomeCurrentPage(page));
+    window.scrollTo(0, 0);
+  };
+
+  const addToFavorite = (meal) => {
+    let isReadyToAdd = true;
+    myFavorites.forEach((el) => {
+      if (meal.recipe_id === el.favId) {
+        message.error('This meal has already added to your favorites');
+        isReadyToAdd = false;
+      }
+    });
+
+    if (isReadyToAdd) {
+      const newFavorite = {
+        favId: meal.recipe_id,
+        mealImage: meal.image_url,
+        mealTitle: meal.title,
+        mealPublisher: meal.publisher,
+        mealPrice: 9.99,
+        quantity: 1,
+      };
+
+      dispatch(actionCreator.addToFavorites(newFavorite));
+      message.success('This meal was added to your favorites');
+    }
+  };
+
+  let allMeals = <CardSkeleton />;
+
+  if (meals) {
+    allMeals = meals
+      .slice((currentPage - 1) * 9, (currentPage - 1) * 9 + 9)
+      .map((meal) => {
+        return (
+          <CardCustomize
+            key={meal.recipe_id}
+            mealTitle={meal.title}
+            mealImage={meal.image_url}
+            mealPrice={9.99}
+            mealPublisher={meal.publisher}
+            publisherUrl={meal.publisher_url}
+            onOrderClicked={showDrawer}
+            openModal={() => openModal(meal.recipe_id)}
+            onAddToFavorites={() => addToFavorite(meal)}
+          />
+        );
+      });
+  }
+
+  let banner = (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Spin size="large" />
+    </div>
+  );
+  if (!loading) {
+    banner = <HomeBanner>{searchKeyWord}</HomeBanner>;
+  }
+
   return (
     <React.Fragment>
+      <IngredientModal modalEnable={modalEnable} closeModal={closeModal} />
+
       <div className={styles.HomeBanner}>
-        <HomeBanner>Your search results of "Beef"</HomeBanner>
+        {banner}
         <OrderDrawer onCloseDrawer={onClose} visibleDrawer={visibleDrawer} />
       </div>
 
       <Layout>
-        <Affix offsetTop={63.75}>
-          <Sider
-            style={{ backgroundColor: '#ffffff', height: '100%' }}
-            breakpoint="md"
-            collapsedWidth="0"
-            onBreakpoint={() => {}}
-            onCollapse={() => {}}
-          >
-            <div className="logo" />
-            <Menu theme="light" mode="inline" defaultOpenKeys={['hotKeyWord']}>
-              <SubMenu
-                key="hotKeyWord"
-                title={
-                  <span>
-                    <FireTwoTone twoToneColor="#eb2f96" />
-                    <span>
-                      <strong>Top searches</strong>
-                    </span>
-                  </span>
-                }
-              >
-                <Menu.Item
-                  key="1"
-                  icon={<StarTwoTone twoToneColor="#f0a500" />}
-                >
-                  Beef
-                </Menu.Item>
-                <Menu.Item
-                  key="2"
-                  icon={<StarTwoTone twoToneColor="#f0a500" />}
-                >
-                  Tomato
-                </Menu.Item>
-                <Menu.Item
-                  key="3"
-                  icon={<StarTwoTone twoToneColor="#f0a500" />}
-                >
-                  Pho
-                </Menu.Item>
-                <Menu.Item
-                  key="4"
-                  icon={<StarTwoTone twoToneColor="#f0a500" />}
-                >
-                  Chicken
-                </Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Sider>
-        </Affix>
+        <AppSider />
         <div className={styles.Home}>
-          <Row gutter={[40, 40]}>
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-            <CardCustomize onOrderClicked={showDrawer} />
-          </Row>
-          <Pagination defaultCurrent={1} total={50} responsive={true} />
+          <Row gutter={[40, 40]}>{allMeals}</Row>
+          {meals ? (
+            <div className={styles.Pagination}>
+              <Pagination
+                current={currentPage}
+                pageSize={9}
+                total={totalResult}
+                responsive={true}
+                showSizeChanger={false}
+                onChange={changePage}
+              />
+            </div>
+          ) : null}
         </div>
       </Layout>
     </React.Fragment>

@@ -10,12 +10,14 @@ import * as serviceWorker from './serviceWorker';
 import homeReducer from './store/reducers/home';
 import favoritesReducer from './store/reducers/favorites';
 import ingredientsReducer from './store/reducers/ingredients';
+import authReducer from './store/reducers/auth';
 
 // Combine all reducers into one, then remember to change 'mapStateToProps'
 const rootReducer = combineReducers({
   home: homeReducer,
   favorites: favoritesReducer,
   ingredients: ingredientsReducer,
+  auth: authReducer,
 });
 
 // Set up using redux chrome dev tool

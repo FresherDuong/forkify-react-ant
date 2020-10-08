@@ -54,3 +54,41 @@ export const fetchMeals = (keyWord) => {
       });
   };
 };
+
+export const fetchHomeTopSearchStart = () => {
+  return {
+    type: actionTypes.FETCH_HOME_TOP_SEARCH_START,
+  };
+};
+
+export const fetchHomeTopSearchSuccess = (keyWords) => {
+  return {
+    type: actionTypes.FETCH_HOME_TOP_SEARCH_SUCCESS,
+    totalKeyWord: keyWords,
+  };
+};
+
+export const fetchHomeTopSearchFail = (err) => {
+  return {
+    type: actionTypes.FETCH_HOME_TOP_SEARCH_FAIL,
+    error: err,
+  };
+};
+
+export const fetchTopSearch = () => {
+  return (dispatch) => {
+    dispatch(fetchHomeTopSearchStart());
+    axios
+      .get('https://forkify-d9124.firebaseio.com/keyWord.json')
+      .then((res) => {
+        const fetchedKeyWords = [];
+        for (let key in res.data) {
+          fetchedKeyWords.push({ ...res.data[key], id: res.data[key].name });
+        }
+        dispatch(fetchHomeTopSearchSuccess(fetchedKeyWords));
+      })
+      .catch((err) => {
+        dispatch(fetchHomeTopSearchFail(err.message));
+      });
+  };
+};

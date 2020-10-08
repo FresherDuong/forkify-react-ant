@@ -61,10 +61,12 @@ const LeftMenu = (props) => {
         </Link>
       </Menu.Item>
       <Menu.Item key="orders">
-        <Link to="/your-orders">
-          <ShoppingTwoTone />
-          Your orders
-        </Link>
+        <Badge dot={myFavorites.length === 0 ? false : true}>
+          <Link to="/your-orders">
+            <ShoppingTwoTone />
+            Your orders
+          </Link>
+        </Badge>
       </Menu.Item>
       <SubMenu
         title={

@@ -3,11 +3,14 @@ import { updateObject } from './../../shared/utils/utility';
 
 const initialState = {
   meals: null,
-  searchKeyWord: null,
   error: null,
   loading: false,
   totalResult: 0,
   currentPage: 0,
+  searchKeyWord: null,
+  topSearch: null,
+  topSearchLoading: false,
+  topSearchError: null,
 };
 
 const fetchHomeMealsStart = (state, action) => {
@@ -45,6 +48,26 @@ const setHomeCurrentPage = (state, action) => {
   });
 };
 
+const fetchHomeTopSearchStart = (state, action) => {
+  return updateObject(state, {
+    topSearchLoading: true,
+  });
+};
+
+const fetchHomeTopSearchSuccess = (state, action) => {
+  return updateObject(state, {
+    topSearch: action.totalKeyWord,
+    topSearchLoading: false,
+  });
+};
+
+const fetchHomeTopSearchFail = (state, action) => {
+  return updateObject(state, {
+    topSearchError: action.error,
+    topSearchLoading: false,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_HOME_MEALS_START:
@@ -61,6 +84,15 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.SET_HOME_CURRENT_PAGE:
       return setHomeCurrentPage(state, action);
+
+    case actionTypes.FETCH_HOME_TOP_SEARCH_START:
+      return fetchHomeTopSearchStart(state, action);
+
+    case actionTypes.FETCH_HOME_TOP_SEARCH_SUCCESS:
+      return fetchHomeTopSearchSuccess(state, action);
+
+    case actionTypes.FETCH_HOME_TOP_SEARCH_FAIL:
+      return fetchHomeTopSearchFail(state, action);
 
     default:
       return state;

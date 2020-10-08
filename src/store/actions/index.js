@@ -1,4 +1,4 @@
-export { fetchMeals, setHomeCurrentPage } from './home';
+export { fetchMeals, setHomeCurrentPage, fetchTopSearch } from './home';
 export {
   addToFavorites,
   removeFromFavorites,
@@ -9,3 +9,5 @@ export {
   closeIngredientModal,
   fetchIngredients,
 } from './ingredients';
+
+export { auth, authCheckState, logOut } from './auth';

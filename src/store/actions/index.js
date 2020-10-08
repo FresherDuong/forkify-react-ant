@@ -3,6 +3,7 @@ export {
   addToFavorites,
   removeFromFavorites,
   increaseMealQuantity,
+  reloadFavoritesData,
 } from './favorites';
 export {
   openIngredientModal,

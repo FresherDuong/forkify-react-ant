@@ -5,8 +5,15 @@ const initialState = {
   myFavorites: [],
 };
 
+const reloadFavoritesData = (state, action) => {
+  return updateObject(state, {
+    myFavorites: action.reloadedData,
+  });
+};
+
 const addToFavorites = (state, action) => {
   const newFavorites = state.myFavorites.concat(action.meal);
+  localStorage.setItem('favorites', JSON.stringify(newFavorites));
 
   return updateObject(state, {
     myFavorites: newFavorites,
@@ -17,6 +24,7 @@ const removeFromFavorites = (state, action) => {
   const newFavorites = state.myFavorites.filter((fav) => {
     return fav.favId !== action.mealId;
   });
+  localStorage.setItem('favorites', JSON.stringify(newFavorites));
 
   return updateObject(state, {
     myFavorites: newFavorites,
@@ -45,6 +53,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.INCREASE_MEAL_QUANTITY:
       return increaseMealQuantity(state, action);
+
+    case actionTypes.RELOAD_FAVORITES_DATA:
+      return reloadFavoritesData(state, action);
 
     default:
       return state;

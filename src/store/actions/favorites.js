@@ -1,5 +1,13 @@
 import * as actionTypes from './actionTypes';
 
+export const reloadFavoritesData = () => {
+  const favoriteMeals = JSON.parse(localStorage.getItem('favorites'));
+  return {
+    type: actionTypes.RELOAD_FAVORITES_DATA,
+    reloadedData: favoriteMeals,
+  };
+};
+
 export const addToFavorites = (favoriteMeal) => {
   return {
     type: actionTypes.ADD_TO_FAVORITES,

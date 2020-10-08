@@ -17,6 +17,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(actionsCreator.authCheckState());
+    dispatch(actionsCreator.reloadFavoritesData());
   }, [dispatch]);
 
   return (

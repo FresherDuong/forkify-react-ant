@@ -17,6 +17,7 @@ message.config({
 const Home = () => {
   console.log('[Home.js] rendered');
   const [visibleDrawer, setVisibleDrawer] = useState(false);
+  const [chosenMeal, setChosenMeal] = useState(null);
 
   const {
     meals,
@@ -51,12 +52,15 @@ const Home = () => {
     dispatch(actionCreator.closeIngredientModal());
   };
 
-  const showDrawer = () => {
+  const showDrawer = (id, title, price) => {
+    setChosenMeal({ id: id, title: title, price: price });
     setVisibleDrawer(true);
   };
 
   const onClose = () => {
+    setChosenMeal(null);
     setVisibleDrawer(false);
+    dispatch(actionCreator.resetOrderData());
   };
 
   const changePage = (page, pageSize) => {
@@ -102,7 +106,7 @@ const Home = () => {
             mealPrice={9.99}
             mealPublisher={meal.publisher}
             publisherUrl={meal.publisher_url}
-            onOrderClicked={showDrawer}
+            onOrderClicked={() => showDrawer(meal.recipe_id, meal.title, 9.99)}
             openModal={() => openModal(meal.recipe_id)}
             onAddToFavorites={() => addToFavorite(meal)}
           />
@@ -130,7 +134,11 @@ const Home = () => {
 
       <div className={styles.HomeBanner}>
         {banner}
-        <OrderDrawer onCloseDrawer={onClose} visibleDrawer={visibleDrawer} />
+        <OrderDrawer
+          onCloseDrawer={onClose}
+          visibleDrawer={visibleDrawer}
+          drawerData={chosenMeal}
+        />
       </div>
 
       <Layout>

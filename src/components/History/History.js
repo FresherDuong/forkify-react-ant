@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Badge } from 'antd';
-import ItemDetails from './../../ItemDetails/ItemDetails';
+import ItemDetails from './../ItemDetails/ItemDetails';
 
 const { Column } = Table;
 
@@ -38,7 +38,14 @@ const History = (props) => {
       >
         <Column
           title="Your orders"
-          render={() => <ItemDetails />}
+          render={() => (
+            <ItemDetails
+              favImg="https://f2fapi.herokuapp.com/image-crawled/Bacon2BDouble2BCheese2BBurger2BDip2B5002B3557cdaa745d.jpg"
+              favTitle="Bacon Double Cheese Burger Dip"
+              favPublisher="Closet Cooking"
+              favPrice="9.99"
+            />
+          )}
           key="yourMeals"
         />
         <Column title="Quantity" key="quantity" dataIndex="quantity" />

@@ -4,6 +4,7 @@ export {
   removeFromFavorites,
   increaseMealQuantity,
   reloadFavoritesData,
+  deleteAllFavorites,
 } from './favorites';
 export {
   openIngredientModal,
@@ -12,3 +13,5 @@ export {
 } from './ingredients';
 
 export { auth, authCheckState, logOut } from './auth';
+
+export { orderNow, resetOrderData } from './order';

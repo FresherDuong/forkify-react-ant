@@ -79,7 +79,7 @@ export const fetchTopSearch = () => {
   return (dispatch) => {
     dispatch(fetchHomeTopSearchStart());
     axios
-      .get('https://forkify-d9124.firebaseio.com/keyWord.json')
+      .get('https://forkify-d9124.firebaseio.com/keyWords.json')
       .then((res) => {
         const fetchedKeyWords = [];
         for (let key in res.data) {

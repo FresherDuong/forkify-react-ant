@@ -1,5 +1,5 @@
-import React from 'react';
-import { Tabs } from 'antd';
+import React, { useState } from 'react';
+import { Tabs, Result, Button } from 'antd';
 import OrderTable from './../../components/OrderTable/OrderTable';
 import HomeBanner from './../../components/UI/HomeBanner/HomeBanner';
 import ButtonColored from './../../components/UI/ButtonColored/ButtonColored';
@@ -9,18 +9,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './YourOrder.module.css';
 import * as actionsCreator from './../../store/actions/index';
 import IngredientModal from './../../components/IngredientModal/IngredientModal';
+import { Link } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 
 const YourOrder = (props) => {
   console.log('[YourOrder] render');
-  const { myFavorites, modalEnable } = useSelector((state) => {
+  const [isContinue, setIsContinue] = useState(false);
+  const { myFavorites, modalEnable, isAuth } = useSelector((state) => {
     return {
       myFavorites: state.favorites.myFavorites,
       modalEnable: state.ingredients.modalEnable,
+      isAuth: state.auth.token !== null,
     };
   });
   const dispatch = useDispatch();
+
+  const onOpenCloseForm = () => {
+    setIsContinue(!isContinue);
+  };
 
   const onDeleteFavorite = (favId) => {
     dispatch(actionsCreator.removeFromFavorites(favId));
@@ -53,6 +60,39 @@ const YourOrder = (props) => {
       .toFixed(2);
   }
 
+  let orderForm = null;
+  if (isContinue && myFavorites.length > 0) {
+    const meals = [];
+    myFavorites.forEach((fav) => {
+      meals.push({
+        mealId: fav.favId,
+        quantity: fav.quantity,
+        price: fav.mealPrice,
+      });
+    });
+
+    if (isAuth) {
+      orderForm = (
+        <div className={styles.OrderForm}>
+          <OrderForm totalPrice={totalPrice} meals={meals} orderType="more" />
+        </div>
+      );
+    } else {
+      orderForm = (
+        <Result
+          title="Please login to order your meal !"
+          extra={
+            <Link to="/auth">
+              <Button type="primary" key="console">
+                Log in now
+              </Button>
+            </Link>
+          }
+        />
+      );
+    }
+  }
+
   return (
     <React.Fragment>
       <IngredientModal modalEnable={modalEnable} closeModal={closeModal} />
@@ -66,10 +106,12 @@ const YourOrder = (props) => {
               onIncMealQuantity={onIncreaseMealQuantity}
             />
             <HomeBanner>{`Your total price: ${totalPrice} $`}</HomeBanner>
-            <ButtonColored>Continue</ButtonColored>
-            <div className={styles.OrderForm}>
-              <OrderForm />
-            </div>
+            {myFavorites.length > 0 ? (
+              <ButtonColored onBtnClick={onOpenCloseForm}>
+                Continue
+              </ButtonColored>
+            ) : null}
+            {orderForm}
           </TabPane>
           <TabPane tab="Your order history" key="2">
             <YourHistory />

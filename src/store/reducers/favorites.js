@@ -43,6 +43,12 @@ const increaseMealQuantity = (state, action) => {
   });
 };
 
+const deleteAllFavData = (state, action) => {
+  return updateObject(state, {
+    myFavorites: [],
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TO_FAVORITES:
@@ -56,6 +62,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.RELOAD_FAVORITES_DATA:
       return reloadFavoritesData(state, action);
+
+    case actionTypes.DELETE_FAVORITES_DATA:
+      return deleteAllFavData(state, action);
 
     default:
       return state;

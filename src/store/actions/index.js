@@ -15,3 +15,5 @@ export {
 export { auth, authCheckState, logOut } from './auth';
 
 export { orderNow, resetOrderData } from './order';
+
+export { fetchHistoryData } from './history';

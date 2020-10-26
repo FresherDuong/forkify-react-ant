@@ -12,6 +12,7 @@ import favoritesReducer from './store/reducers/favorites';
 import ingredientsReducer from './store/reducers/ingredients';
 import authReducer from './store/reducers/auth';
 import orderReducer from './store/reducers/order';
+import historyReducer from './store/reducers/history';
 
 // Combine all reducers into one, then remember to change 'mapStateToProps'
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   auth: authReducer,
   order: orderReducer,
+  history: historyReducer,
 });
 
 // Set up using redux chrome dev tool

@@ -36,7 +36,7 @@ const AppSider = () => {
   );
 
   if (!topSearchLoading && topSearch) {
-    keyWordData = topSearch.slice(20, 30).map((word, index) => {
+    keyWordData = topSearch.slice(60, 70).map((word, index) => {
       return (
         <Menu.Item key={word.id} icon={<StarTwoTone twoToneColor="#f0a500" />}>
           {word.name}

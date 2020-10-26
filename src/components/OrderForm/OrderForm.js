@@ -2,6 +2,7 @@
 import React from 'react';
 import { Form, Input, Button, Spin, Result } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as actionsCreator from './../../store/actions/index';
 
 const layout = {
@@ -86,6 +87,21 @@ const OrderForm = (props) => {
       </Form.Item>
     </Form>
   );
+
+  if (token == null) {
+    form = (
+      <Result
+        title="Please login to order your meal !"
+        extra={
+          <Link to="/auth">
+            <Button type="primary" key="console">
+              Log in now
+            </Button>
+          </Link>
+        }
+      />
+    );
+  }
 
   if (loading) {
     form = (

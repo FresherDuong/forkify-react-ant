@@ -60,6 +60,19 @@ const YourOrder = (props) => {
       .toFixed(2);
   }
 
+  const notLogin = (
+    <Result
+      title="Please login to order your meal !"
+      extra={
+        <Link to="/auth">
+          <Button type="primary" key="console">
+            Log in now
+          </Button>
+        </Link>
+      }
+    />
+  );
+
   let orderForm = null;
   if (isContinue && myFavorites.length > 0) {
     const meals = [];
@@ -78,18 +91,7 @@ const YourOrder = (props) => {
         </div>
       );
     } else {
-      orderForm = (
-        <Result
-          title="Please login to order your meal !"
-          extra={
-            <Link to="/auth">
-              <Button type="primary" key="console">
-                Log in now
-              </Button>
-            </Link>
-          }
-        />
-      );
+      orderForm = notLogin;
     }
   }
 
@@ -114,7 +116,7 @@ const YourOrder = (props) => {
             {orderForm}
           </TabPane>
           <TabPane tab="Your order history" key="2">
-            <YourHistory />
+            {isAuth ? <YourHistory /> : notLogin}
           </TabPane>
         </Tabs>
       </div>

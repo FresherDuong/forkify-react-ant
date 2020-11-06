@@ -3,7 +3,9 @@ import { Drawer } from 'antd';
 import OrderForm from './../OrderForm/OrderForm';
 import styles from './OrderDrawer.module.css';
 
-const OrderDrawer = (props) => {
+const OrderDrawer = React.memo((props) => {
+  console.log('[OrderDrawer] rendered');
+
   let mealTitle = '';
   let mealId = '';
   let mealPrice = 0;
@@ -40,6 +42,6 @@ const OrderDrawer = (props) => {
       </div>
     </Drawer>
   );
-};
+});
 
 export default OrderDrawer;

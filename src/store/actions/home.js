@@ -37,7 +37,7 @@ export const setHomeCurrentPage = (currentPage) => {
   };
 };
 
-export const fetchMeals = (keyWord) => {
+export const fetchMeals = (keyWord, page = 1) => {
   return (dispatch) => {
     dispatch(fetchHomeMealsStart());
     axios
@@ -46,7 +46,7 @@ export const fetchMeals = (keyWord) => {
         dispatch(fetchHomeMealsSuccess(res.data.recipes, keyWord));
         dispatch(setHomeTotalResult(res.data.count));
         if (res.data.count > 0) {
-          dispatch(setHomeCurrentPage(1));
+          dispatch(setHomeCurrentPage(page));
         }
       })
       .catch((err) => {

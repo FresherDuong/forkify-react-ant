@@ -26,14 +26,11 @@ const validateMessages = {
 };
 
 const OrderForm = (props) => {
-  const { loading, ordered, token, userId } = useSelector((state) => {
-    return {
-      loading: state.order.loading,
-      token: state.auth.token,
-      userId: state.auth.userId,
-      ordered: state.order.ordered,
-    };
-  });
+  const loading = useSelector((state) => state.order.loading);
+  const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.userId);
+  const ordered = useSelector((state) => state.order.ordered);
+
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
@@ -44,7 +41,7 @@ const OrderForm = (props) => {
       totalPrice: props.totalPrice,
       orderAt: new Date(),
     };
-    console.log(orderData);
+
     dispatch(actionsCreator.orderNow(orderData, token, props.orderType));
   };
 

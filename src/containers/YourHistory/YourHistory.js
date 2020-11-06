@@ -6,15 +6,13 @@ import * as actionsCreator from './../../store/actions/index';
 
 const { Panel } = Collapse;
 
-const YourHistory = (props) => {
-  const { loading, history, token, userId } = useSelector((state) => {
-    return {
-      loading: state.history.loading,
-      history: state.history.history,
-      token: state.auth.token,
-      userId: state.auth.userId,
-    };
-  });
+const YourHistory = React.memo(() => {
+  console.log('[YourHistory] rendered');
+  const loading = useSelector((state) => state.history.loading);
+  const history = useSelector((state) => state.history.history);
+  const token = useSelector((state) => state.auth.token);
+  const userId = useSelector((state) => state.auth.userId);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -80,6 +78,6 @@ const YourHistory = (props) => {
       {historyData}
     </Collapse>
   );
-};
+});
 
 export default YourHistory;

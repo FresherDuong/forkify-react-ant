@@ -23,18 +23,19 @@ const tailLayout = {
 
 const Auth = (props) => {
   const [isLogin, setIsLogin] = useState(true);
-  const { error, loading, token } = useSelector((state) => {
-    return {
-      token: state.auth.token,
-      error: state.auth.error,
-      loading: state.auth.loading,
-    };
-  });
+  const token = useSelector((state) => state.auth.token);
+  const error = useSelector((state) => state.auth.error);
+  const loading = useSelector((state) => state.auth.loading);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+    document.title = 'Forkify | Login';
+  }, []);
+
+  useEffect(() => {
     if (error) {
-      message.error(error);
+      message.error('Invalid email or password');
     }
   }, [error]);
 

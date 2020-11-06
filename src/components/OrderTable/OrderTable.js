@@ -4,7 +4,8 @@ import YourFavorite from './../../components/YourFavorite/YourFavorite';
 
 const { Column } = Table;
 
-const OrderTable = (props) => {
+const OrderTable = React.memo((props) => {
+  console.log('[OrderTable] rendered');
   return (
     <div>
       <Table dataSource={props.tableData} pagination={true} scroll={{ x: 300 }}>
@@ -12,6 +13,7 @@ const OrderTable = (props) => {
           title="Your favorites"
           render={(fav) => (
             <YourFavorite
+              favId={fav.favId}
               favImg={fav.mealImage}
               favTitle={fav.mealTitle}
               favPrice={fav.mealPrice}
@@ -37,6 +39,6 @@ const OrderTable = (props) => {
       </Table>
     </div>
   );
-};
+});
 
 export default OrderTable;

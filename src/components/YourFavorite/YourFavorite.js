@@ -5,6 +5,7 @@ import ItemDetails from './../ItemDetails/ItemDetails';
 const YourFavorite = (props) => {
   return (
     <ItemDetails
+      favId={props.favId}
       favImg={props.favImg}
       favTitle={props.favTitle}
       favPrice={props.favPrice}

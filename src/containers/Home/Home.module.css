@@ -4,7 +4,8 @@
 }
 
 .HomeBanner {
-  margin: 40px 4% 50px 4%;
+  padding-right: 25px;
+  margin: 40px auto 40px auto;
 }
 
 .Pagination {

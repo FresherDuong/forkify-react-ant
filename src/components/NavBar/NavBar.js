@@ -3,9 +3,24 @@ import LeftMenu from './LeftMenu/LeftMenu';
 import RightMenu from './RightMenu/RightMenu';
 import { Drawer, Button, Affix } from 'antd';
 import logo from './../../assets/img/logo.png';
+import { useLocation } from 'react-router-dom';
 
-const Navbar = (props) => {
+const Navbar = () => {
+  console.log('[NavBar] rendered');
   const [visible, setVisible] = useState(false);
+
+  const location = useLocation();
+
+  let selectedMenu = 'home';
+  if (location.pathname === '/') {
+    selectedMenu = 'home';
+  }
+  if (location.pathname === '/your-orders') {
+    selectedMenu = 'orders';
+  }
+  if (location.pathname === '/auth') {
+    selectedMenu = 'login';
+  }
 
   const showDrawer = () => {
     setVisible(true);
@@ -25,10 +40,10 @@ const Navbar = (props) => {
         </div>
         <div className="menuCon">
           <div className="leftMenu">
-            <LeftMenu openMode="horizontal" />
+            <LeftMenu openMode="horizontal" currentMenu={selectedMenu} />
           </div>
           <div className="rightMenu">
-            <RightMenu openMode="horizontal" />
+            <RightMenu openMode="horizontal" currentMenu={selectedMenu} />
           </div>
           <Button
             className="barsMenu"
@@ -45,8 +60,8 @@ const Navbar = (props) => {
             onClose={onClose}
             visible={visible}
           >
-            <RightMenu openMode="vertical" />
-            <LeftMenu openMode="vertical" />
+            <RightMenu openMode="vertical" currentMenu={selectedMenu} />
+            <LeftMenu openMode="vertical" currentMenu={selectedMenu} />
           </Drawer>
         </div>
       </nav>

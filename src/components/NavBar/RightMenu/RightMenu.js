@@ -2,25 +2,29 @@ import React from 'react';
 import { Menu, Input, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
 import { LoginOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import * as actionsCreator from './../../../store/actions/index';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const { Search } = Input;
 const SubMenu = Menu.SubMenu;
 
-const RightMenu = (props) => {
+const RightMenu = React.memo((props) => {
   console.log('[RightMenu] rendered');
-  const { token, displayName } = useSelector((state) => {
-    return {
-      token: state.auth.token,
-      displayName: state.auth.displayName,
-    };
-  });
-  const dispatch = useDispatch();
+
+  const token = useSelector((state) => state.auth.token);
+  const displayName = useSelector((state) => state.auth.displayName);
+
+  const history = useHistory();
 
   const onSearchMeal = (keyWord) => {
-    dispatch(actionsCreator.fetchMeals(keyWord));
+    if (keyWord === '') {
+      return;
+    }
+    window.scrollTo(0, 0);
+    history.push({
+      pathname: '/',
+      search: `?q=${keyWord}&page=1`,
+    });
   };
 
   let authState = (
@@ -57,19 +61,22 @@ const RightMenu = (props) => {
   }
 
   return (
-    <Menu mode={props.openMode}>
-      <Menu.Item key="search">
-        <Search
-          placeholder="Search your meals now..."
-          style={{ width: 'auto' }}
-          loading={false}
-          allowClear={true}
-          onSearch={onSearchMeal}
-        />
-      </Menu.Item>
+    <Menu mode={props.openMode} defaultSelectedKeys={[props.currentMenu]}>
+      <SubMenu
+        key="search"
+        title={
+          <Search
+            placeholder="Search your meals now..."
+            style={{ width: 'auto' }}
+            loading={false}
+            allowClear={true}
+            onSearch={onSearchMeal}
+          />
+        }
+      ></SubMenu>
       {authState}
     </Menu>
   );
-};
+});
 
 export default RightMenu;

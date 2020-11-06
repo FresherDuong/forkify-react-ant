@@ -27,7 +27,7 @@ const CardCustomize = (props) => {
             <Button
               type="link"
               icon={<HeartTwoTone twoToneColor="#eb2f96" />}
-              onClick={props.onAddToFavorites}
+              onClick={props.onAddToFav}
             />
           </Tooltip>,
           <ButtonColored onBtnClick={props.onOrderClicked}>

@@ -3,21 +3,31 @@ import { FireTwoTone, StarTwoTone } from '@ant-design/icons';
 import { Layout, Menu, Affix, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actionsCreator from './../../store/actions/index';
+import { createSelector } from 'reselect';
+import { useHistory } from 'react-router-dom';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const AppSider = () => {
+// Create outside of component
+const selectData = createSelector(
+  (state) => state.home.topSearch,
+  (state) => state.home.topSearchLoading,
+  (state) => state.home.topSearchError,
+  (topSearch, topSearchLoading, topSearchError) => ({
+    topSearch,
+    topSearchLoading,
+    topSearchError,
+  })
+);
+
+const AppSider = React.memo(() => {
+  console.log('[AppSider] rendered');
   const { topSearch, topSearchLoading, topSearchError } = useSelector(
-    (state) => {
-      return {
-        topSearch: state.home.topSearch,
-        topSearchLoading: state.home.topSearchLoading,
-        topSearchError: state.home.topSearchError,
-      };
-    }
+    selectData
   );
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(actionsCreator.fetchTopSearch());
@@ -49,7 +59,10 @@ const AppSider = () => {
 
   const onMenuSelected = (menu) => {
     window.scrollTo(0, 0);
-    dispatch(actionsCreator.fetchMeals(menu.key));
+    history.push({
+      pathname: '/',
+      search: `?q=${menu.key}&page=1`,
+    });
   };
 
   return (
@@ -84,6 +97,6 @@ const AppSider = () => {
       </Sider>
     </Affix>
   );
-};
+});
 
 export default AppSider;

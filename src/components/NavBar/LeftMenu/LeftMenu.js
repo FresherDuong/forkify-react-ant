@@ -9,7 +9,7 @@ import * as actionsCreator from './../../../store/actions/index';
 
 const SubMenu = Menu.SubMenu;
 
-const LeftMenu = (props) => {
+const LeftMenu = React.memo((props) => {
   console.log('[LeftMenu] rendered');
 
   const myFavorites = useSelector((state) => {
@@ -25,14 +25,13 @@ const LeftMenu = (props) => {
     dispatch(actionsCreator.openIngredientModal(favId));
   };
 
-  let myFavoriteMeals = null;
-
-  if (myFavorites.length !== 0) {
-    myFavoriteMeals = (
+  const myFavoriteMeals =
+    myFavorites.length === 0 ? null : (
       <div className={styles.Favorites}>
         {myFavorites.map((el) => (
           <YourFavorite
             key={el.favId}
+            favId={el.favId}
             favImg={el.mealImage}
             favTitle={el.mealTitle}
             favPrice={el.mealPrice}
@@ -50,10 +49,9 @@ const LeftMenu = (props) => {
         </div>
       </div>
     );
-  }
 
   return (
-    <Menu mode={props.openMode}>
+    <Menu mode={props.openMode} defaultSelectedKeys={[props.currentMenu]}>
       <Menu.Item key="home">
         <Link to="/">
           <HomeTwoTone />
@@ -86,6 +84,6 @@ const LeftMenu = (props) => {
       </SubMenu>
     </Menu>
   );
-};
+});
 
 export default LeftMenu;

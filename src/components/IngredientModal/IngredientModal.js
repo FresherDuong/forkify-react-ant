@@ -1,19 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Modal, Timeline, Badge, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actionCreator from './../../store/actions/index';
 
-const IngredientModal = (props) => {
+const IngredientModal = React.memo(() => {
   console.log('[IngredientModal] render');
-  const { ingredients, currentIngID, ingredientsLoading } = useSelector(
-    (state) => {
-      return {
-        ingredients: state.ingredients.ingredients,
-        ingredientsLoading: state.ingredients.ingredientsLoading,
-        currentIngID: state.ingredients.currentIngID,
-      };
-    }
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const currentIngID = useSelector((state) => state.ingredients.currentIngID);
+  const ingredientsLoading = useSelector(
+    (state) => state.ingredients.ingredientsLoading
   );
+  const modalEnable = useSelector((state) => state.ingredients.modalEnable);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,6 +19,10 @@ const IngredientModal = (props) => {
       dispatch(actionCreator.fetchIngredients(currentIngID));
     }
   }, [dispatch, currentIngID]);
+
+  const closeModal = useCallback(() => {
+    dispatch(actionCreator.closeIngredientModal());
+  }, [dispatch]);
 
   let titleStatus = 'Loading...';
   let mealIngredients = (
@@ -59,13 +61,13 @@ const IngredientModal = (props) => {
     <Modal
       title={titleStatus}
       centered
-      visible={props.modalEnable}
-      onOk={props.closeModal}
-      onCancel={props.closeModal}
+      visible={modalEnable}
+      onOk={closeModal}
+      onCancel={closeModal}
     >
       {mealIngredients}
     </Modal>
   );
-};
+});
 
 export default IngredientModal;

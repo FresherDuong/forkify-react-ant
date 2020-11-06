@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Tabs, Result, Button } from 'antd';
 import OrderTable from './../../components/OrderTable/OrderTable';
 import HomeBanner from './../../components/UI/HomeBanner/HomeBanner';
@@ -8,47 +8,74 @@ import OrderForm from './../../components/OrderForm/OrderForm';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './YourOrder.module.css';
 import * as actionsCreator from './../../store/actions/index';
-import IngredientModal from './../../components/IngredientModal/IngredientModal';
 import { Link } from 'react-router-dom';
+import { createSelector } from 'reselect';
+
+const selectMyFavorites = createSelector(
+  (state) => state.favorites.myFavorites,
+  (myFavorites) => myFavorites
+);
+
+const tableDataSelector = createSelector(
+  (state) => state,
+  (myFavorites) => {
+    return myFavorites.map((fav) => {
+      return { ...fav, key: fav.favId };
+    });
+  }
+);
 
 const { TabPane } = Tabs;
 
 const YourOrder = (props) => {
   console.log('[YourOrder] render');
   const [isContinue, setIsContinue] = useState(false);
-  const { myFavorites, modalEnable, isAuth } = useSelector((state) => {
-    return {
-      myFavorites: state.favorites.myFavorites,
-      modalEnable: state.ingredients.modalEnable,
-      isAuth: state.auth.token !== null,
-    };
-  });
+  // const myFavorites = useSelector((state) => state.favorites.myFavorites);
+  const myFavorites = useSelector(selectMyFavorites);
+  const isAuth = useSelector((state) => state.auth.token !== null);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = 'Forkify | Your orders';
+  }, []);
 
   const onOpenCloseForm = () => {
     setIsContinue(!isContinue);
   };
 
-  const onDeleteFavorite = (favId) => {
-    dispatch(actionsCreator.removeFromFavorites(favId));
-  };
+  const onDeleteFavorite = useCallback(
+    (favId) => {
+      dispatch(actionsCreator.removeFromFavorites(favId));
+    },
+    [dispatch]
+  );
 
-  const openModal = (recipeId) => {
-    dispatch(actionsCreator.openIngredientModal(recipeId));
-  };
+  const openModal = useCallback(
+    (recipeId) => {
+      dispatch(actionsCreator.openIngredientModal(recipeId));
+    },
+    [dispatch]
+  );
 
-  const closeModal = () => {
-    dispatch(actionsCreator.closeIngredientModal());
-  };
+  const onIncreaseMealQuantity = useCallback(
+    (idMeal, value) => {
+      dispatch(actionsCreator.increaseMealQuantity(idMeal, value));
+    },
+    [dispatch]
+  );
 
-  const onIncreaseMealQuantity = (idMeal, value) => {
-    dispatch(actionsCreator.increaseMealQuantity(idMeal, value));
-  };
+  // // With useMemo
+  // const tableData = useMemo(
+  //   () =>
+  //     myFavorites.map((fav) => {
+  //       return { ...fav, key: fav.favId };
+  //     }),
+  //   [myFavorites]
+  // );
 
-  const tableData = [];
-  myFavorites.forEach((fav) => {
-    tableData.push({ ...fav, key: fav.favId });
-  });
+  // With reselect
+  const tableData = tableDataSelector(myFavorites);
 
   let totalPrice = 0;
 
@@ -97,7 +124,6 @@ const YourOrder = (props) => {
 
   return (
     <React.Fragment>
-      <IngredientModal modalEnable={modalEnable} closeModal={closeModal} />
       <div className={styles.YourOrder}>
         <Tabs defaultActiveKey="1" onChange={() => {}} type="card" centered>
           <TabPane tab="Order your favorite meals now" key="1">

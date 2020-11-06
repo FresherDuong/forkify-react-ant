@@ -10,7 +10,7 @@ import * as actionsCreator from './../../../store/actions/index';
 const SubMenu = Menu.SubMenu;
 
 const LeftMenu = React.memo((props) => {
-  console.log('[LeftMenu] rendered');
+  // console.log('[LeftMenu] rendered');
 
   const myFavorites = useSelector((state) => {
     return state.favorites.myFavorites;

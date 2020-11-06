@@ -4,7 +4,7 @@ import OrderForm from './../OrderForm/OrderForm';
 import styles from './OrderDrawer.module.css';
 
 const OrderDrawer = React.memo((props) => {
-  console.log('[OrderDrawer] rendered');
+  // console.log('[OrderDrawer] rendered');
 
   let mealTitle = '';
   let mealId = '';

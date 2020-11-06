@@ -3,7 +3,7 @@ import CardCustomize from './../../../components/UI/CardCustomize/CardCustomize'
 import { useSelector } from 'react-redux';
 
 const HomeMeals = React.memo((props) => {
-  console.log('[HomeMeals] rendered');
+  // console.log('[HomeMeals] rendered');
   const currentPage = useSelector((state) => state.home.currentPage);
 
   const allMeals = props.meals

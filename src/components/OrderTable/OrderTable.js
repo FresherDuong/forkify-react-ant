@@ -5,7 +5,7 @@ import YourFavorite from './../../components/YourFavorite/YourFavorite';
 const { Column } = Table;
 
 const OrderTable = React.memo((props) => {
-  console.log('[OrderTable] rendered');
+  // console.log('[OrderTable] rendered');
   return (
     <div>
       <Table dataSource={props.tableData} pagination={true} scroll={{ x: 300 }}>

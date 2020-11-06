@@ -28,7 +28,7 @@ const tableDataSelector = createSelector(
 const { TabPane } = Tabs;
 
 const YourOrder = (props) => {
-  console.log('[YourOrder] render');
+  // console.log('[YourOrder] render');
   const [isContinue, setIsContinue] = useState(false);
   // const myFavorites = useSelector((state) => state.favorites.myFavorites);
   const myFavorites = useSelector(selectMyFavorites);

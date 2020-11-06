@@ -6,7 +6,7 @@ import logo from './../../assets/img/logo.png';
 import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
-  console.log('[NavBar] rendered');
+  // console.log('[NavBar] rendered');
   const [visible, setVisible] = useState(false);
 
   const location = useLocation();

@@ -8,7 +8,7 @@ import IngredientModal from './../../components/IngredientModal/IngredientModal'
 const { Content } = Layout;
 
 const LayoutPage = (props) => {
-  console.log('[LayoutPage] rendered');
+  // console.log('[LayoutPage] rendered');
   return (
     <React.Fragment>
       <Layout>

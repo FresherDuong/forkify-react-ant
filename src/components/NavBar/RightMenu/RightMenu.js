@@ -9,7 +9,7 @@ const { Search } = Input;
 const SubMenu = Menu.SubMenu;
 
 const RightMenu = React.memo((props) => {
-  console.log('[RightMenu] rendered');
+  // console.log('[RightMenu] rendered');
 
   const token = useSelector((state) => state.auth.token);
   const displayName = useSelector((state) => state.auth.displayName);

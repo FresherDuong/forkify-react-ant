@@ -16,7 +16,7 @@ const searchQuerySelect = createSelector(
 );
 
 const Home = React.memo((props) => {
-  console.log('[Home.js] rendered');
+  // console.log('[Home.js] rendered');
 
   const [visibleDrawer, setVisibleDrawer] = useState(false);
   const [chosenMeal, setChosenMeal] = useState(null);

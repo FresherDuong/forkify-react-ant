@@ -22,7 +22,7 @@ const selectData = createSelector(
 );
 
 const AppSider = React.memo(() => {
-  console.log('[AppSider] rendered');
+  // console.log('[AppSider] rendered');
   const { topSearch, topSearchLoading, topSearchError } = useSelector(
     selectData
   );

@@ -56,7 +56,7 @@ const Auth = (props) => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    // console.log('Failed:', errorInfo);
   };
 
   let redirect = null;

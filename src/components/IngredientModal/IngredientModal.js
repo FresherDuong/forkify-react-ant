@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actionCreator from './../../store/actions/index';
 
 const IngredientModal = React.memo(() => {
-  console.log('[IngredientModal] render');
+  // console.log('[IngredientModal] render');
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const currentIngID = useSelector((state) => state.ingredients.currentIngID);
   const ingredientsLoading = useSelector(

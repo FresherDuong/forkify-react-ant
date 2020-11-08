@@ -6,7 +6,7 @@ import * as actionsCreator from './../../store/actions/index';
 
 const { Panel } = Collapse;
 
-const YourHistory = React.memo(() => {
+const YourHistory = React.memo((props) => {
   // console.log('[YourHistory] rendered');
   const loading = useSelector((state) => state.history.loading);
   const history = useSelector((state) => state.history.history);

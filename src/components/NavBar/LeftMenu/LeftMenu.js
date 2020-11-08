@@ -51,7 +51,11 @@ const LeftMenu = React.memo((props) => {
     );
 
   return (
-    <Menu mode={props.openMode} defaultSelectedKeys={[props.currentMenu]}>
+    <Menu
+      mode={props.openMode}
+      selectedKeys={props.currentMenu}
+      onSelect={props.onCloseDrawer}
+    >
       <Menu.Item key="home">
         <Link to="/">
           <HomeTwoTone />

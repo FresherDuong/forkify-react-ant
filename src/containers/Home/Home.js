@@ -34,6 +34,7 @@ const Home = React.memo((props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const queryObj = Object.fromEntries(
       new URLSearchParams(props.location.search)
     );
@@ -142,7 +143,7 @@ const Home = React.memo((props) => {
           {meals ? (
             <div className={styles.Pagination}>
               <Pagination
-                current={currentPage}
+                current={+currentPage}
                 pageSize={9}
                 total={totalResult}
                 responsive={true}

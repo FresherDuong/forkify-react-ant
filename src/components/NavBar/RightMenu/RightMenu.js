@@ -25,6 +25,7 @@ const RightMenu = React.memo((props) => {
       pathname: '/',
       search: `?q=${keyWord}&page=1`,
     });
+    props.onCloseDrawer();
   };
 
   let authState = (
@@ -61,7 +62,11 @@ const RightMenu = React.memo((props) => {
   }
 
   return (
-    <Menu mode={props.openMode} defaultSelectedKeys={[props.currentMenu]}>
+    <Menu
+      mode={props.openMode}
+      selectedKeys={props.currentMenu}
+      onSelect={props.onCloseDrawer}
+    >
       <SubMenu
         key="search"
         title={

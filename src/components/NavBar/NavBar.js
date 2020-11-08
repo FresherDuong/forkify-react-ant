@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import LeftMenu from './LeftMenu/LeftMenu';
 import RightMenu from './RightMenu/RightMenu';
 import { Drawer, Button, Affix } from 'antd';
 import logo from './../../assets/img/logo.png';
 import { useLocation } from 'react-router-dom';
+
+const navBarMenuItems = {
+  '/': ['home'],
+  '/your-orders': ['orders'],
+  '/auth': ['login'],
+};
 
 const Navbar = () => {
   // console.log('[NavBar] rendered');
@@ -11,24 +17,18 @@ const Navbar = () => {
 
   const location = useLocation();
 
-  let selectedMenu = 'home';
-  if (location.pathname === '/') {
-    selectedMenu = 'home';
-  }
-  if (location.pathname === '/your-orders') {
-    selectedMenu = 'orders';
-  }
-  if (location.pathname === '/auth') {
-    selectedMenu = 'login';
-  }
+  let selectedMenu = useMemo(
+    () => navBarMenuItems[location.pathname] || ['home'],
+    [location.pathname]
+  );
 
-  const showDrawer = () => {
+  const showDrawer = useCallback(() => {
     setVisible(true);
-  };
+  }, []);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setVisible(false);
-  };
+  }, []);
 
   return (
     <Affix offsetTop={0}>
@@ -40,10 +40,18 @@ const Navbar = () => {
         </div>
         <div className="menuCon">
           <div className="leftMenu">
-            <LeftMenu openMode="horizontal" currentMenu={selectedMenu} />
+            <LeftMenu
+              openMode="horizontal"
+              currentMenu={selectedMenu}
+              onCloseDrawer={onClose}
+            />
           </div>
           <div className="rightMenu">
-            <RightMenu openMode="horizontal" currentMenu={selectedMenu} />
+            <RightMenu
+              openMode="horizontal"
+              currentMenu={selectedMenu}
+              onCloseDrawer={onClose}
+            />
           </div>
           <Button
             className="barsMenu"
@@ -60,8 +68,16 @@ const Navbar = () => {
             onClose={onClose}
             visible={visible}
           >
-            <RightMenu openMode="vertical" currentMenu={selectedMenu} />
-            <LeftMenu openMode="vertical" currentMenu={selectedMenu} />
+            <RightMenu
+              openMode="vertical"
+              currentMenu={selectedMenu}
+              onCloseDrawer={onClose}
+            />
+            <LeftMenu
+              openMode="vertical"
+              currentMenu={selectedMenu}
+              onCloseDrawer={onClose}
+            />
           </Drawer>
         </div>
       </nav>
